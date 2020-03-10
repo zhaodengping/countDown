@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>倒计时</title>
+    <style>
+        .circleProgress_wrapper {
+            width: 200px;
+            height: 200px;
+            margin: 50px auto;
+            position: relative;
+            border: 1px solid #ddd;
+        }
+
+        .wrapper {
+            width: 100px;
+            height: 200px;
+            position: absolute;
+            top: 0;
+            overflow: hidden;
+        }
+
+        .right {
+            right: 0;
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .circleProgress {
+            width: 160px;
+            height: 160px;
+            border: 20px solid transparent;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            transform: rotate(-135deg);
+        }
+
+        .rightcircle {
+            animation-name: circleProgressLoad_right;
+            animation-fill-mode: forwards;
+            animation-timing-function: linear;
+            border-top: 20px solid green;
+            border-right: 20px solid green;
+            right: 0;
+        }
+
+        .leftcircle {
+            animation-name: circleProgressLoad_left;
+            animation-fill-mode: forwards;
+            animation-timing-function: linear;
+            border-bottom: 20px solid green;
+            border-left: 20px solid green;
+            left: 0;
+        }
+        @keyframes circleProgressLoad_right{
+            0%{
+                transform: rotate(-135deg);
+            }
+            50%,100%{
+                transform: rotate(45deg);
+            }
+        }
+        @keyframes circleProgressLoad_left{
+            0%,50%{
+                transform: rotate(-135deg);
+            }
+            100%{
+                transform: rotate(45deg);
+            }
+        }
+
+        .time{
+            position:absolute;
+            width: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            text-align: center;
+        }
+
+        
+    </style>
+</head>
+
+<body>
+    <div id='app'>
+        <div class="circleProgress_wrapper">
+            <div class="wrapper right">
+                <div class="circleProgress rightcircle" :style="{animationDuration:timeTotal+'s'}"></div>
+            </div>
+            <div class="wrapper left">
+                <div class="circleProgress leftcircle" :style="{animationDuration:timeTotal+'s'}"></div>
+            </div>
+            <div class="time">{{time}}</div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                timeTotal:10,
+                time:10,
+                interval:''
+            },
+            created() {
+                this.getTime()
+            },
+            methods: {
+                getTime(){
+                    let that=this;
+                    this.interval=setInterval(function(){
+                        if(that.time>0){
+                            that.time--
+                        }else{
+                            clearInterval(that.interval)
+                        }
+                    },1000)
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>
